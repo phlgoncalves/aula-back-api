@@ -1,29 +1,24 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { UsuariosArmazenados } from "./usuario.dm";
 import { UsuarioEntity } from "./usuario.entity";
+import { criaUsuarioDTO } from "./dto/usuario.dto";
+
+import { v4 as uuid } from "uuid";
+import { ListaUsuarioDTO } from "./dto/consulta.dto";
 
 
 @Controller('/usuarios') //serve como link para chamar o Controller usuario  localhost:3000/usuarios
 export class UsuarioController {
-    constructor(private classeUsuariosArmazenado: UsuariosArmazenados) { }
+    constructor(private classeUsuariosArmazenados: UsuariosArmazenados) { }
 
     @Post()
-    async criaUsuario(@Body() dadosUsuario) { //async: significa que a função é asincrona. 
+    async criaUsuario(@Body() dadosUsuario: criaUsuarioDTO) { //async: significa que a função é asincrona. 
 
-        var validacoes = this.classeUsuariosArmazenado.validaUsuario(dadosUsuario)
-
-        if (validacoes.length > 0) {
-            return {
-                status: 'Erro',
-                validacoes: validacoes
-            }
-        }
-
-        var novoUsuario = new UsuarioEntity(dadosUsuario.id, dadosUsuario.name, dadosUsuario.idade,
+        var novoUsuario = new UsuarioEntity(uuid(), dadosUsuario.nome, dadosUsuario.idade,
             dadosUsuario.cidade, dadosUsuario.email,
             dadosUsuario.telefone, dadosUsuario.senha)
 
-        this.classeUsuariosArmazenado.AdicionarUsuario(novoUsuario)
+        this.classeUsuariosArmazenados.AdicionarUsuario(novoUsuario)
 
         var usuario = {
             dadosUsuario: dadosUsuario,
@@ -34,7 +29,18 @@ export class UsuarioController {
 
     @Get()
     async listaUsuarios() {
-        return this.classeUsuariosArmazenado.Usuario;
+        this.classeUsuariosArmazenados.Usuarios
+
+        const usuariosListados = this.classeUsuariosArmazenados.Usuarios
+        const listaRetorno = usuariosListados.map(
+            usuario => new ListaUsuarioDTO(
+                usuario.id,
+                usuario.nome,
+                usuario.email
+            )
+        )
+
+        return listaRetorno
     }
 
 
