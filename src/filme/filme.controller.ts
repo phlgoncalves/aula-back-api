@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { FilmesArmazenados } from "./filme.dm";
 import { criaFilmeDTO } from "./dto/filme.dto";
 
 import { v4 as uuid } from "uuid";
 import { FilmeEntity } from "./filme.entity";
 import { ListaFilmeDTO } from "./dto/consulta.dto";
+import { alteraFilmeDTO } from "./dto/altera.filme";
 
 @Controller('/filmes')
 export class FilmeController {
@@ -42,5 +43,26 @@ export class FilmeController {
         )
 
         return filmeRetorno
+    }
+
+    @Put('/:id')
+    async atualizaFilme(@Param('id') id: string, @Body() novosDados: alteraFilmeDTO) {
+        const filmeAtualizado = await this.classeFilmesArmazenados.atualizaFilme(id, novosDados)
+
+        return {
+            filme: filmeAtualizado,
+            message: 'Filme atualizado'
+        }
+    }
+
+    @Delete('/:id')
+    async removeFilme(@Param('id') id: string) {
+        const filmeRemovido = await this.classeFilmesArmazenados.removeFilme(id)
+
+        return {
+            filme: filmeRemovido,
+            message: 'Filme removido'
+        }
+
     }
 }
