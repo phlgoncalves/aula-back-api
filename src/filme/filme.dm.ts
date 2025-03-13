@@ -4,10 +4,11 @@ import { FilmeEntity } from "./filme.entity";
 @Injectable()
 export class FilmesArmazenados {
     #filmes: FilmeEntity[] = [
-        { id: '1', nome: 'Tropa de Elite', duracao: 135, sinopse: 'Historia de um capitão do BOPE', ano: '2015', genero: 'policial/drama' }
+        { id: '1', nome: 'Tropa de Elite', duracao: 135, sinopse: 'Historia de um capitão do BOPE', ano: '2015', genero: 'policial/drama' },
+        { id: '2', nome: 'Harry Potter', duracao: 165, sinopse: 'Historia de um garoto bruxo', ano: '2005', genero: 'policial/drama' }
     ];
 
-    AficionarFilme(filme: FilmeEntity) {
+    AdicionarFilme(filme: FilmeEntity) {
         this.#filmes.push(filme)
     }
 
