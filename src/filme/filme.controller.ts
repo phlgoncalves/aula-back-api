@@ -45,6 +45,20 @@ export class FilmeController {
         return filmeRetorno
     }
 
+    @Get('/:id')
+    async listaFilme(@Param('id') id: string) {
+        const filmePorID = await this.classeFilmesArmazenados.getFilmePorId(id);
+
+        const filmeUnico = new ListaFilmeDTO(
+            filmePorID.id,
+            filmePorID.nome,
+            filmePorID.sinopse,
+            filmePorID.ano
+        );
+
+        return filmeUnico;
+    }
+
     @Put('/:id')
     async atualizaFilme(@Param('id') id: string, @Body() novosDados: alteraFilmeDTO) {
         const filmeAtualizado = await this.classeFilmesArmazenados.atualizaFilme(id, novosDados)

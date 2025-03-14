@@ -16,6 +16,14 @@ export class FilmesArmazenados {
         return this.#filmes
     }
 
+    getFilmePorId(id: string): FilmeEntity {
+        const filme = this.#filmes.find(f => f.id === id);
+        if (!filme) {
+            throw new Error('Filme não encontrado');
+        }
+        return filme;
+    }
+
     atualizaFilme(id: string, dadosAtualizacao: Partial<FilmeEntity>) {
         const filme = this.buscaPorID(id);
 
