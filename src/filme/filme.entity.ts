@@ -13,4 +13,10 @@ export class FilmeEntity {
         this.ano = ano;
         this.genero = genero;
     }
+
+    compartilhar(): string {
+        return "Estou assistindo o filme " + this.nome +
+            " que conta a seguinte história: " + this.sinopse +
+            ". Foi lançado em " + this.ano + " e tem duração de " + this.duracao + " minutos."
+    }
 }
