@@ -59,6 +59,16 @@ export class FilmeController {
         return filmeUnico;
     }
 
+    @Get('/:id/compartilhar')
+    async compartilharFilme(@Param('id') id: string) {
+
+        const filmePorID = this.classeFilmesArmazenados.getFilmePorId(id);
+
+        const compartilhamento = filmePorID.compartilhar();
+
+        return { mensagem: compartilhamento };
+    }
+
     @Put('/:id')
     async atualizaFilme(@Param('id') id: string, @Body() novosDados: alteraFilmeDTO) {
         const filmeAtualizado = await this.classeFilmesArmazenados.atualizaFilme(id, novosDados)
