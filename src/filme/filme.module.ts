@@ -1,10 +1,11 @@
 import { Module } from "@nestjs/common";
-
+import { FilmeController } from "./filme.controller";
+import { FilmesArmazenados } from "./filme.dm";
 
 @Module({
     imports: [],
-    controllers: [UsuarioController],
-    providers: [UsuariosArmazenados]
+    controllers: [FilmeController],
+    providers: [FilmesArmazenados]
 })
 
-export class UsuarioModule { }
+export class FilmeModule { }
