@@ -1,5 +1,6 @@
 import { IsEmail, IsInt, IsNotEmpty, IsString, MinLength } from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
+import { SenhaForte } from "../validacao/senha-forte.validator";
 
 export class criaUsuarioDTO {
     @IsString()
@@ -20,5 +21,6 @@ export class criaUsuarioDTO {
     telefone: string;
 
     @MinLength(6, { message: 'Senha precisa de pelo menos 6 digitos' })
+    @SenhaForte({ message: 'Senha muito fraca, tente novamente' })
     senha: string;
 }
