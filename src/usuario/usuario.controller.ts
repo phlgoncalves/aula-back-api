@@ -6,6 +6,7 @@ import { criaUsuarioDTO } from "./dto/usuario.dto";
 import { v4 as uuid } from "uuid";
 import { ListaUsuarioDTO } from "./dto/consulta.dto";
 import { alteraUsuarioDTO } from "./dto/altera.usuario";
+import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
 
 
 @Controller('/usuarios') //serve como link para chamar o Controller usuario  localhost:3000/usuarios
@@ -22,7 +23,7 @@ export class UsuarioController {
         this.classeUsuariosArmazenados.AdicionarUsuario(novoUsuario)
 
         var usuario = {
-            dadosUsuario: dadosUsuario,
+            dadosUsuario: novoUsuario,
             status: 'Usuario Criado'
         }
         return usuario
@@ -61,6 +62,15 @@ export class UsuarioController {
         return {
             usuario: usuarioRemovido,
             message: 'Usuário removido'
+        }
+    }
+
+    @Post('/login')
+    async login(@Body() dadosLogin: LoginUsuarioDTO) {
+        var login = this.classeUsuariosArmazenados.validarLogin(dadosLogin.email, dadosLogin.senha);
+        return {
+            status: login,
+            message: login ? 'login efetuado' : 'usuario ou senha inválidos'
         }
     }
 

@@ -24,4 +24,8 @@ export class UsuarioEntity {
         const saltOrRounds = 10;
         this.senha = bcrypt.hashSync(senhaNova, saltOrRounds);
     }
+
+    login(senha) {
+        return bcrypt.compareSync(senha, this.senha)
+    }
 }

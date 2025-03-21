@@ -21,6 +21,9 @@ export class UsuariosArmazenados {
             ([chave, valor]) => {
                 if (chave === 'id') {
                     return
+                } else if (chave === 'senha') {
+                    usuario.trocarSenha(valor)
+                    return
                 }
                 if (valor === undefined) {
                     return
@@ -43,6 +46,22 @@ export class UsuariosArmazenados {
             throw new Error('Usuario não encontrado')
         }
         return prossivelUsuario;
+    }
+
+    private buscaPorEmail(email: string) {
+        const prossivelUsuario = this.#usuarios.find(
+            usuarioSalvo => usuarioSalvo.email === email
+        )
+
+        if (!prossivelUsuario) {
+            throw new Error('Usuario não encontrado')
+        }
+        return prossivelUsuario;
+    }
+
+    validarLogin(email: string, senha: string) {
+        const usuario = this.buscaPorEmail(email);
+        return usuario.login(senha);
     }
 
     async removeUsuario(id: string) {
