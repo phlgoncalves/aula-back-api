@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'class-validator';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,19 @@ async function bootstrap() {
     })
   )
 
-  useContainer(app.select(AppModule),{fallbackOnErrors: true})
+
+  const config = new DocumentBuilder()
+    .setTitle('API Filmes e Series - StreamingAPI')
+    .setDescription('A presente API tem como objetivo sumular cadastros possiveis para uma API de Stream de filmes e series',)
+    .setVersion('1.0')
+    .addTag('usuario')
+    .addTag('filme')
+    .addTag('serie')
+    .build()
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('api', app, document)
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true })
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

@@ -7,13 +7,16 @@ import { v4 as uuid } from "uuid";
 import { ListaUsuarioDTO } from "./dto/consulta.dto";
 import { alteraUsuarioDTO } from "./dto/altera.usuario";
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
+import { ApiBadRequestResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-
+@ApiTags('usuario')
 @Controller('/usuarios') //serve como link para chamar o Controller usuario  localhost:3000/usuarios
 export class UsuarioController {
     constructor(private classeUsuariosArmazenados: UsuariosArmazenados) { }
 
     @Post()
+    @ApiResponse({status: 201, description:'Retorna que houve sucesso ao criar um usuário'})
+    @ApiBadRequestResponse({description: "Retorna que algum dado está errado"})
     async criaUsuario(@Body() dadosUsuario: criaUsuarioDTO) { //async: significa que a função é asincrona. 
 
         var novoUsuario = new UsuarioEntity(uuid(), dadosUsuario.nome, dadosUsuario.idade,

@@ -6,7 +6,9 @@ import { v4 as uuid } from "uuid";
 import { FilmeEntity } from "./filme.entity";
 import { ListaFilmeDTO } from "./dto/consulta.dto";
 import { alteraFilmeDTO } from "./dto/altera.filme";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('filme')
 @Controller('/filmes')
 export class FilmeController {
     constructor(private classeFilmesArmazenados: FilmesArmazenados) { }
