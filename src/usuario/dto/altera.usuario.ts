@@ -1,4 +1,4 @@
-import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength} from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { SenhaForte } from "../validacao/senha-forte.validator";
 import { ApiPropertyOptional } from "@nestjs/swagger";
@@ -21,13 +21,21 @@ export class alteraUsuarioDTO {
     })
     idade: Number;
 
+
     @IsString()
-    @IsOptional()
+    @MinLength(8, {message: 'CEP deve conter pelo menos 8 digitos'})
     @ApiPropertyOptional({
-        example: 'Bauru',
-        description: 'Deve ser enviado apenas a cidade'
+        example: '17014000',
+        description: 'Deve ser enviado um CEP valido'
     })
-    cidade: string;
+    cep: string;
+
+    @IsString()
+    @ApiPropertyOptional({
+        example: 'Apartamento 123',
+        description: 'Deve ser informado o complemento do endereço'
+    })
+    complemento: string;
 
     @IsEmail(undefined, { message: 'email é inválido' })
     @EmailUnico({ message: 'Email já cadastrado, tente novamente' })
